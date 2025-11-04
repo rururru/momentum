@@ -1,16 +1,21 @@
 $(document).ready(function () {
     renderCurrentTime();
     renderQuote();
+
+    setInterval(renderCurrentTime, 1000);
 });
 
 
 function renderCurrentTime() {
-let url = `https://worldtimeapi.org/api/timezone/Asia/Seoul`;
-fetch(url)
-.then(res => res.json()).then((data) => {
-    let datetime = data['datetime'].substr(11,5);
-    $('#time').text(datetime);
-});
+    const el = document.getElementById("time");
+    const now = new Date();
+    const hour = String(now.getHours()).padStart(2, '0');
+    const minute = String(now.getMinutes()).padStart(2, '0');
+    const second = String(now.getSeconds()).padStart(2, '0');
+
+    const isColonVisible = second % 2 === 0;
+    timeText = `${hour}<span style="visibility:${isColonVisible ? 'visible' : 'hidden'}">:</span>${minute}`;
+    el.innerHTML = timeText;
 }
 
 
